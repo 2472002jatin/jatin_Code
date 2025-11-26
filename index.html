@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Anniversary Card</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
+        background-size: 300% 300%;
+        animation: bgFlow 12s ease infinite;
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+    }
+
+    @keyframes bgFlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .container {
+        width: 90%;
+        max-width: 480px;
+        background: rgba(255, 255, 255, 0.18);
+        padding: 25px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 10px;
+        text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .message {
+        color: white;
+        font-size: 1rem;
+        text-align: justify;
+        text-align-last: center;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        padding: 0 10px;
+    }
+
+    .heart-wrapper {
+        width: 320px;
+        height: 340px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    #gallery {
+        position: absolute;
+        inset: 0;
+    }
+
+    .imgItem {
+        position: absolute;
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+        opacity: 0;
+        transition: all 1.5s ease;
+    }
+
+    svg {
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="title">Happy Anniversary Bunny ❤️💖</div>
+
+    <div class="message">
+        Heyy Bunny, happy anniversary! 💖✨<br><br>
+        You are the love of my life and the sunshine of my happiness.
+        Because of you, beautiful colors have come into my life. 🌈💕<br><br>
+        You helped me grow and made me feel loved every day.<br><br>
+        This is our first anniversary — a reminder of the unforgettable journey we started together. 🫶✨<br><br>
+        I love you forever Bunny… ❤️
+    </div>
+
+    <!-- ❤️ HEART SECTION -->
+    <div class="heart-wrapper">
+
+        <div id="gallery"></div>
+
+        <!-- Hidden SVG that gives heart shape -->
+        <svg viewBox="0 0 100 100">
+            <path id="heartShape"
+                  d="M50 80 L20 50 A20 20 0 1 1 50 30 A20 20 0 1 1 80 50 Z"
+                  fill="none" />
+        </svg>
+
+    </div>
+
+</div>
+
+<script>
+    const imageList = [
+       "img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg",
+       "img6.jpeg","img7.jpeg","img8.jpeg","img9.jpeg","img10.jpeg",
+       "img11.jpeg","img12.jpeg","img13.jpeg","img14.jpeg","img15.jpeg",
+       "img16.jpeg","img17.jpeg","img18.jpeg","img19.jpeg","img20.jpeg",
+       "img21.jpeg","img22.jpeg","img23.jpeg","img24.jpeg","img25.jpeg",
+       "img26.jpeg","img27.jpeg","img28.jpeg","img29.jpeg","img30.jpeg"
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const heartPath = document.getElementById('heartShape');
+
+    function randomPos(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function placeImages() {
+        imageList.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.className = 'imgItem';
+
+            img.style.left = randomPos(300) + 'px';
+            img.style.top = randomPos(300) + 'px';
+
+            gallery.appendChild(img);
+        });
+
+        animateToHeart();
+    }
+
+    function animateToHeart() {
+        const imgs = document.querySelectorAll('.imgItem');
+        const total = imgs.length;
+
+        imgs.forEach((img, i) => {
+            setTimeout(() => {
+
+                const p = heartPath.getPointAtLength(
+                    (heartPath.getTotalLength() / total) * i
+                );
+
+                img.style.left = (p.x * 3) + 'px';
+                img.style.top = (p.y * 3.6) + 'px';
+                img.style.opacity = 1;
+                img.style.transform = 'scale(1.2)';
+
+                setTimeout(() => {
+                    img.style.transform = 'scale(1)';
+                }, 800);
+
+            }, i * 250);
+        });
+    }
+
+    placeImages();
+</script>
+
+</body>
+</html>
